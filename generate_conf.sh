@@ -36,30 +36,20 @@ function env_delete {
     sed "/${key}/d" -i env.outline
 }
 
-function create_slack_env {
+function create_google_env {
     # get url from outline env
     set -o allexport; source env.outline; set +o allexport
-    echo "=> Open https://api.slack.com/apps and Create New App"
-    echo "=> After creating, scroll down to 'Add features and functionality' -> 'Permissions'"
-    echo "=> '${URL}/auth/slack.callback'"
-    read -p "Copy the above to Redirect URLs. Press Enter to continue..."
 
-    echo "=> Save, go back and scroll down to 'App Credentials'"
-
-    if test -f env.slack; then
-        set -o allexport; source env.slack; set +o allexport
+    if test -f env.google; then
+        set -o allexport; source env.google; set +o allexport
     fi
 
-    read -p "Enter App ID [$SLACK_APP_ID] : " SLACK_APP_ID_INP
-    read -p "Enter Client ID [$SLACK_KEY] : " SLACK_KEY_INP
-    read -p "Enter Client Secret [$SLACK_SECRET]: " SLACK_SECRET_INP
-    read -p "Enter Verification Token (*not* Signing Secret) [$SLACK_VERIFICATION_TOKEN]: " SLACK_VERIFICATION_TOKEN_INP
+    read -p "Enter Google Client ID [$GOOGLE_CLIENT_ID] : " GOOGLE_CLIENT_ID_INP
+    read -p "Enter Google Client Secret [$GOOGLE_CLIENT_SECRET] : " GOOGLE_CLIENT_SECRET_INP
 
-    touch env.slack
-    env_add SLACK_APP_ID ${SLACK_APP_ID_INP:-SLACK_APP_ID} env.slack
-    env_add SLACK_KEY ${SLACK_KEY_INP:-SLACK_KEY} env.slack
-    env_add SLACK_SECRET ${SLACK_SECRET_INP:-SLACK_SECRET} env.slack
-    env_add SLACK_VERIFICATION_TOKEN ${SLACK_VERIFICATION_TOKEN_INP:-SLACK_VERIFICATION_TOKEN} env.slack
+    touch env.google
+    env_add GOOGLE_CLIENT_ID ${GOOGLE_CLIENT_ID_INP:-GOOGLE_CLIENT_ID} env.google
+    env_add GOOGLE_CLIENT_SECRET ${GOOGLE_CLIENT_SECRET_INP:-GOOGLE_CLIENT_SECRET} env.google
 }
 
 function create_env_files {
