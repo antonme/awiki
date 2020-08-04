@@ -48,8 +48,8 @@ function create_google_env {
     read -p "Enter Google Client Secret [$GOOGLE_CLIENT_SECRET] : " GOOGLE_CLIENT_SECRET_INP
 
     touch env.google
-    env_add GOOGLE_CLIENT_ID ${GOOGLE_CLIENT_ID_INP:-GOOGLE_CLIENT_ID} env.google
-    env_add GOOGLE_CLIENT_SECRET ${GOOGLE_CLIENT_SECRET_INP:-GOOGLE_CLIENT_SECRET} env.google
+    env_add GOOGLE_CLIENT_ID ${GOOGLE_CLIENT_ID_INP:-$GOOGLE_CLIENT_ID} env.google
+    env_add GOOGLE_CLIENT_SECRET ${GOOGLE_CLIENT_SECRET_INP:-$GOOGLE_CLIENT_SECRET} env.google
 }
 
 function create_env_files {
@@ -147,14 +147,14 @@ function delete_data {
 	if [ $DELETE_DB == "yes" ]
 	then
         echo "deleting database and images"
-		rm -rfv data/pgdata data/minio_root
+		rm -rfv data/pgdata data/minio_root data/fakes3
 	fi
 }
 
 function init_data_dirs {
     # get url from outline env
     set -o allexport; source env.outline; set +o allexport
-    mkdir -p data/minio_root/${AWS_S3_UPLOAD_BUCKET_NAME} data/pgdata
+    mkdir -p data/certs data/minio_root/${AWS_S3_UPLOAD_BUCKET_NAME} data/pgdata data/fakes3/${AWS_S3_UPLOAD_BUCKET_NAME}
 }
 
 $*

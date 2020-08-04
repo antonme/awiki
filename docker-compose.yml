@@ -12,6 +12,11 @@ services:
     volumes:
       - ./data/pgdata:/var/lib/postgresql/data
     restart: always
+  fake3:
+    image: lphoward/fake-s3
+    volumes:
+      - ./data/fakes3:/fakes3_root
+    restart: always
   minio:
     image: minio/minio
     volumes:
@@ -23,11 +28,11 @@ services:
   outline:
     # TODO: remove hardcoded version
     image: outlinewiki/outline:version-0.45.0
-    command: sh -c "if [ -f secondtime ];then yarn start; else yarn sequelize db:migrate && echo "aa">secondtime && yarn start;fi"
     environment:
       - DATABASE_URL=postgres://user:pass@postgres:5432/outline
       - DATABASE_URL_TEST=postgres://user:pass@postgres:5432/outline-test
       - REDIS_URL=redis://redis:6379
+    command: sh -c "if [ -f secondtime ];then yarn dev; else yarn install --pure-lockfile && yarn sequelize db:migrate && echo "aa">secondtime && yarn dev;fi"
     env_file:
       - ./env.outline
       - ./env.google

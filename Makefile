@@ -41,4 +41,4 @@ clean-conf:
 clean-data:
 	@bash generate_conf.sh delete_data
 
-clean: clean-docker clean-conf
+clean: clean-docker clean-conf clean-data
